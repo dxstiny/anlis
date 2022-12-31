@@ -19,9 +19,10 @@ jobs:
       run: |
         python3 -m pip install --upgrade pip
         pip3 install pylint==2.11.1
+        pip3 install -r requirements.txt
     - name: Analysing...
       id: main
       working-directory: ./
       run: |
-        python3 -m anlis --rcfile=./.pylintrc src/pyaddict
+        python3 -m pylint --rcfile=./.pylintrc src/anlis
       continue-on-error: false
