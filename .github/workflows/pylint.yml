@@ -23,5 +23,5 @@ jobs:
       id: main
       working-directory: ./
       run: |
-        python3 -m pylint --rcfile=./.pylintrc src/pyaddict
+        python3 -m anlis --rcfile=./.pylintrc src/pyaddict
       continue-on-error: false

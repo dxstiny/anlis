@@ -23,5 +23,5 @@ jobs:
       id: main
       working-directory: ./
       run: |
-        mypy src/pyaddict
+        mypy src/anlis
       continue-on-error: false
