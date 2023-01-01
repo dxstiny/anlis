@@ -2,6 +2,13 @@
 
 ANLIS is a Python package for [analysis](https://en.wikipedia.org/wiki/Mathematical_analysis) built on top of [numpy]( https://www.numpy.org/ ) and [sympy]( https://www.sympy.org/en/index.html ). ANLIS provides a set of functions to perform analysis tasks. ANLIS is a work in progress and currently supports the following tasks:
 
+- Series
+    - Plotting any series
+    - Arithmetic Series
+        - Finding $a_n$ from two elements
+    - Geometric Series
+        - Finding $a_n$ from two elements
+        - Finding the sum of an infinite series (based on ratio and first element *or* two elements)
 - Convergence
     - Determining if a sequence is convergent (or divergent)
     - Convergence Tests
@@ -23,7 +30,7 @@ ANLIS is a Python package for [analysis](https://en.wikipedia.org/wiki/Mathemati
 - Differentials (e.g. for error analysis)
     - Absolute differential
     - Relative differential
-- Multidimensionals
+- Multidimensional Calculus
     - Critical points
         - Finding critical points
         - Finding extrema
