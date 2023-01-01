@@ -30,7 +30,7 @@ ANLIS is a Python package for [analysis](https://en.wikipedia.org/wiki/Mathemati
 - Differentials (e.g. for error analysis)
     - Absolute differential
     - Relative differential
-- Multidimensionals
+- Multidimensional Calculus
     - Critical points
         - Finding critical points
         - Finding extrema
