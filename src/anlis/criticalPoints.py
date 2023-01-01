@@ -1,8 +1,14 @@
-from typing import List, Dict
+# -*- coding: utf-8 -*-
+"""functions to determine critical points and extrema"""
+__copyright__ = ("Copyright (c) 2023 https://github.com/dxstiny")
+
+
+from typing import List
 import sympy as sp
 
 
-def criticalPoints(function: sp.Function, x: sp.Symbol = sp.Symbol("x")) -> List[sp.Number]:
+def criticalPoints(function: sp.Function,
+                   x: sp.Symbol = sp.Symbol("x")) -> List[sp.Number]:
     """Returns the critical points of a function of one variable.
     :param function: function of one variable
     :param x: variable
@@ -17,7 +23,8 @@ def criticalPoints(function: sp.Function, x: sp.Symbol = sp.Symbol("x")) -> List
     """
     return sp.solve(sp.diff(function, x), x, dict=True)
 
-def minimas(function: sp.Function, x: sp.Symbol = sp.Symbol("x")) -> List[sp.Number]:
+def minimas(function: sp.Function,
+            x: sp.Symbol = sp.Symbol("x")) -> List[sp.Number]:
     """Returns the minimas of a function of one variable.
     :param function: function of one variable
     :param x: variable
@@ -30,9 +37,12 @@ def minimas(function: sp.Function, x: sp.Symbol = sp.Symbol("x")) -> List[sp.Num
     >>> minimas(x**2, x)
     [0]
     """
-    return [point for point in criticalPoints(function, x) if sp.diff(function, x, 2).subs(point) > 0]
+    return [ point
+             for point in criticalPoints(function, x)
+             if sp.diff(function, x, 2).subs(point) > 0 ]
 
-def maximas(function: sp.Function, x: sp.Symbol = sp.Symbol("x")) -> List[sp.Number]:
+def maximas(function: sp.Function,
+            x: sp.Symbol = sp.Symbol("x")) -> List[sp.Number]:
     """Returns the maximas of a function of one variable.
     :param function: function of one variable
     :param x: variable
@@ -45,4 +55,6 @@ def maximas(function: sp.Function, x: sp.Symbol = sp.Symbol("x")) -> List[sp.Num
     >>> maximas(-x**2, x)
     [0]
     """
-    return [point for point in criticalPoints(function, x) if sp.diff(function, x, 2).subs(point) < 0]
+    return [ point
+             for point in criticalPoints(function, x)
+             if sp.diff(function, x, 2).subs(point) < 0]

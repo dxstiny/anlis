@@ -1,3 +1,8 @@
+# -*- coding: utf-8 -*-
+"""a toolset for dealing with differentials and differential approximation"""
+__copyright__ = ("Copyright (c) 2023 https://github.com/dxstiny")
+
+
 from typing import Tuple
 
 import sympy as sp
@@ -22,9 +27,9 @@ def absoluteDifferential(function: sp.Function,
     84.5 * π
     """
     x = x0[0]
-    xs = x0[1]
+    xx = x0[1]
     df = sp.diff(function, x)
-    return df.subs(x, xs) * df
+    return df.subs(x, xx) * dx
 
 
 def relativeDifferential(function: sp.Function,

@@ -1,9 +1,14 @@
+# -*- coding: utf-8 -*-
+"""a toolset for dealing with numerical integral approximation"""
+__copyright__ = ("Copyright (c) 2023 https://github.com/dxstiny")
+
+
 import numpy as np
 
-from anlis.types import Function
+from anlis.types import Function # TODO switch to sympy
 
 
-def RiemannSum(f: Function,
+def riemannSum(f: Function,
                a: float,
                b: float,
                n: int,
@@ -24,7 +29,7 @@ def RiemannSum(f: Function,
         return h * sum(y[1:])
     return h * sum(y[:-1])
 
-def TrapezoidalRule(f: Function,
+def trapezoidalRule(f: Function,
                     a: float,
                     b: float,
                     n: int) -> float:
@@ -41,7 +46,7 @@ def TrapezoidalRule(f: Function,
     y = f(x)
     return h/2 * (y[0] + 2*sum(y[1:-1]) + y[-1])
 
-def SimpsonsRule(f: Function,
+def simpsonsRule(f: Function,
                  a: float,
                  b: float,
                  n: int) -> float:

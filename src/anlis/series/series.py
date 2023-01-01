@@ -1,5 +1,9 @@
+# -*- coding: utf-8 -*-
+"""general purpose functions for series"""
+__copyright__ = ("Copyright (c) 2023 https://github.com/dxstiny")
+
+
 import matplotlib.pyplot as plt
-import numpy as np
 import sympy as sp
 
 def seriesPlot(series: sp.Expr, n: int) -> None:

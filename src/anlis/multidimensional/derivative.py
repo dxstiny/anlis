@@ -1,3 +1,8 @@
+# -*- coding: utf-8 -*-
+"""a toolset for dealing with multidimensional derivatives"""
+__copyright__ = ("Copyright (c) 2023 https://github.com/dxstiny")
+
+
 from typing import Tuple, List, Optional
 import sympy as sp
 
@@ -68,7 +73,7 @@ def linearise(function: sp.Function,
     >>> linearise(x**2 + y**2, x, y)
     """
     assert len(x0) == len(variables)
-    f0 = function.subs({ v: x for v, x in zip(variables, x0) })
+    f0 = function.subs(dict( zip(variables, x0) ))
     total = f0
     for v, x in zip(variables, x0):
         total += partialDerivative(function, v).subs({ v: x }) * (v - x)
@@ -133,9 +138,9 @@ def newtonRaphson(functions: Tuple[sp.Function],
     J = jacobiMatrix(functions, variables)
 
     for _ in range(n):
-        f = sp.Matrix([ f.subs({ v: x for v, x in zip(variables, list(x)) })
+        f = sp.Matrix([ f.subs(dict( zip(variables, list(x)) ))
                         for f in functions ])
-        x = x - J.inv().subs({ v: x for v, x in zip(variables, list(x)) }) * f
+        x = x - J.inv().subs(dict( zip(variables, list(x)) )) * f
     return tuple(x)
 
 def newtonRaphsonWithEpsilon(functions: Tuple[sp.Function],
@@ -144,7 +149,8 @@ def newtonRaphsonWithEpsilon(functions: Tuple[sp.Function],
                              epsilon: float = 1e-6,
                              maxIterations: int = 1000) -> Tuple[int, Tuple[float, ...]]:
     """Returns the solution of a system of equations using Newton-Raphson.
-    it stops when the error is less than epsilon or when the maximum number of iterations is reached.
+    it stops when the error is less than epsilon or
+    when the maximum number of iterations is reached.
     :param functions: functions of two or more variables
     :param variables: variables
     :param x0: initial guess
@@ -165,11 +171,11 @@ def newtonRaphsonWithEpsilon(functions: Tuple[sp.Function],
     J = jacobiMatrix(functions, variables)
 
     for i in range(maxIterations):
-        f = sp.Matrix([ f.subs({ v: x for v, x in zip(variables, list(x)) })
+        f = sp.Matrix([ f.subs(dict( zip(variables, list(x)) ))
                         for f in functions ])
         if f.norm() < epsilon:
             break
-        x = x - J.inv().subs({ v: x for v, x in zip(variables, list(x)) }) * f
+        x = x - J.inv().subs(dict( zip(variables, list(x)) )) * f
     return i, tuple(x)
 
 def partialCompositeDerivative(z: sp.Function,
@@ -262,6 +268,6 @@ def directionalDerivative(f: sp.Function,
     assert len(variables) == len(x0)
     assert len(variables) == len(e)
     g = gradient(f, *variables)
-    g0 = [ g.subs({ v: x for v, x in zip(variables, x0) }) for g in g ]
-    ev = unitVector(*e)
-    return dotProduct(g0, ev)
+    g0 = [ g.subs(dict( zip(variables, x0) )) for g in g ]
+    eUnit = unitVector(*e)
+    return dotProduct(g0, eUnit)

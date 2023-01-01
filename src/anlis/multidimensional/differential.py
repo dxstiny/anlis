@@ -1,5 +1,11 @@
-import sympy as sp
+# -*- coding: utf-8 -*-
+"""a toolset for dealing with multidimensional differentials and differential approximation"""
+__copyright__ = ("Copyright (c) 2023 https://github.com/dxstiny")
+
+
 from typing import Tuple
+
+import sympy as sp
 
 
 def totalDifferential(function: sp.Function,

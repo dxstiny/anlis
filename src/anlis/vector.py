@@ -1,3 +1,8 @@
+# -*- coding: utf-8 -*-
+"""a toolset for dealing with vectors"""
+__copyright__ = ("Copyright (c) 2023 https://github.com/dxstiny")
+
+
 from typing import Tuple
 import sympy as sp
 

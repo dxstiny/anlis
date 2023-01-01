@@ -1,4 +1,8 @@
+# -*- coding: utf-8 -*-
+"""a toolset for dealing with convergence & divergence"""
 from __future__ import annotations
+__copyright__ = ("Copyright (c) 2023 https://github.com/dxstiny")
+
 
 from typing import Optional, Union
 
@@ -7,6 +11,7 @@ from sympy import Rational
 
 
 class Convergence:
+    """A class for representing convergence and divergence of a sequence."""
     def __init__(self,
                  does: bool = False,
                  to: Optional[Union[float, Rational]] = None) -> None:
@@ -15,22 +20,28 @@ class Convergence:
 
     @property
     def does(self) -> bool:
+        """Returns True if the sequence converges, False otherwise."""
         return self._does
 
     @property
     def doesNot(self) -> bool:
+        """Returns True if the sequence diverges, False otherwise."""
         return not self._does
 
     @property
     def to(self) -> Union[float, Rational]:
+        """Returns the value the sequence converges to."""
+        assert self.does
         return self._to
 
     @property
     def toRational(self) -> Rational:
+        """Returns the value the sequence converges to as a Rational."""
         return Rational(self._to)
 
     @property
     def toFloat(self) -> float:
+        """Returns the value the sequence converges to as a float."""
         return float(self.to)
 
     def __str__(self) -> str:
@@ -43,10 +54,12 @@ class Convergence:
 
     @staticmethod
     def convergence(to: float) -> Convergence:
+        """Returns a Convergence object representing convergence to a value."""
         return Convergence(True, to)
 
     @staticmethod
     def divergence() -> Convergence:
+        """Returns a Convergence object representing divergence."""
         return Convergence(False, None)
 
 
@@ -89,11 +102,11 @@ def regulaFalsi(f: sp.Function,
             i += 1
             flag = abs(g(x)) > eps and i < maxiter
     if i < maxiter:
-        print("(regula falsi) converged after %d iterations" % i)
+        print(f"(regula falsi) converged after {i} iterations")
         return Convergence.convergence(x)
-    else:
-        print("(regula falsi) didn't converge after %d iterations" % maxiter)
-        return None
+
+    print("(regula falsi) didn't converge after {maxiter} iterations")
+    return None
 
 def newton(f: sp.Function,
            x0: float,
@@ -128,9 +141,9 @@ def newton(f: sp.Function,
     if i < maxiter:
         print(f"(newton) converged after {i} iterations")
         return Convergence.convergence(x)
-    else:
-        print(f"(newton) didn't converge after {maxiter} iterations")
-        return None
+
+    print(f"(newton) didn't converge after {maxiter} iterations")
+    return None
 
 def ratioTest(ak: sp.Function, symbol: sp.Symbol = sp.Symbol("k")) -> Optional[Convergence]:
     """

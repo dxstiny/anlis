@@ -1,8 +1,13 @@
+# -*- coding: utf-8 -*-
+"""a toolset for dealing with taylor values & series"""
+__copyright__ = ("Copyright (c) 2023 https://github.com/dxstiny")
+
+
 import sympy as sp
 import numpy as np
 
 
-def TnValue(f: sp.Function,
+def TnValue(f: sp.Function, # pylint: disable=invalid-name
             x0: float,
             n: int,
             symbol: sp.Symbol = sp.Symbol("x")) -> sp.Function:
@@ -17,7 +22,7 @@ def TnValue(f: sp.Function,
     df = sp.diff(f, symbol, n).subs(symbol, x0)
     return df / np.math.factorial(n) * (symbol - x0)**n
 
-def Tn(f: sp.Function,
+def Tn(f: sp.Function, # pylint: disable=invalid-name
        x0: float,
        n: int,
        symbol: sp.Symbol = sp.Symbol("x")) -> sp.Function:
@@ -34,7 +39,7 @@ def Tn(f: sp.Function,
         tn += TnValue(f, x0, i, symbol)
     return tn
 
-def TnErrorFunction(f: sp.Function,
+def TnErrorFunction(f: sp.Function, # pylint: disable=invalid-name
                     x0: float,
                     n: int,
                     symbol: sp.Symbol = sp.Symbol("x")) -> sp.Function:
@@ -46,9 +51,9 @@ def TnErrorFunction(f: sp.Function,
     :param symbol: symbol of x
     :return: nth Taylor error function of f(x) at x0
     """
-    return (f - Tn(f, x0, n, symbol))
+    return f - Tn(f, x0, n, symbol)
 
-def TnError(f: sp.Function,
+def TnError(f: sp.Function, # pylint: disable=invalid-name
             x0: float,
             a: float,
             b: float,
@@ -70,7 +75,7 @@ def TnError(f: sp.Function,
     yy = errfnp(xx)
     return np.max(np.abs(yy))
 
-def LagrangeRemainder(f: sp.Function,
+def lagrangeRemainder(f: sp.Function,
                       x0: float,
                       a: float,
                       b: float,
@@ -104,13 +109,13 @@ def LagrangeRemainder(f: sp.Function,
     if float(T) == 0:
         if n > 2:
             print(f"Warning: Lagrange Remainder is likely incorrect (T = 0) - returning for n={n - 2} instead") # pylint: disable=line-too-long
-            return LagrangeRemainder(f, x0, a, b, n - 2, symbol)
-        else:
-            print("Warning: Lagrange Remainder is likely incorrect (T = 0) - returning 0")
-            return 0
+            return lagrangeRemainder(f, x0, a, b, n - 2, symbol)
+
+        print("Warning: Lagrange Remainder is likely incorrect (T = 0) - returning 0")
+        return 0
     return sp.Abs(T)
 
-def TnMin(f: sp.Function,
+def TnMin(f: sp.Function, # pylint: disable=invalid-name
           x0: float,
           a: float,
           b: float,

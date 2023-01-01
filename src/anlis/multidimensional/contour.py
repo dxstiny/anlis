@@ -1,3 +1,8 @@
+# -*- coding: utf-8 -*-
+"""a toolset for dealing with contour lines of multidimensional functions"""
+__copyright__ = ("Copyright (c) 2023 https://github.com/dxstiny")
+
+
 from typing import List, Union, Tuple, Optional
 
 import matplotlib as mpl
@@ -11,7 +16,7 @@ from anlis.vector import dotProduct
 
 def contourLines(function: sp.Function,
                  y: sp.Symbol = sp.Symbol('y'),
-                 c: Union[float, sp.Symbol] = sp.Symbol('c'),
+                 C: Union[float, sp.Symbol] = sp.Symbol('C'),
                  toZero: bool = False,
                  toY: bool = False) -> Union[sp.Eq, List[sp.Eq]]:
     """Returns the contour lines of a function of two variables.
@@ -40,19 +45,19 @@ def contourLines(function: sp.Function,
     [Eq(y, -sqrt(c - x**2)), Eq(y, sqrt(c - x**2))]
     """
     if toZero:
-        return sp.Eq(function - c, 0)
+        return sp.Eq(function - C, 0)
     if toY:
-        sol = sp.solve(function - c, y)
+        sol = sp.solve(function - C, y)
         return [ sp.Eq(y, s) for s in sol ]
-    return sp.Eq(function, c)
+    return sp.Eq(function, C)
 
 def contourPlotSp(function: sp.Function,
-                x: sp.Symbol = sp.Symbol('x'),
-                y: sp.Symbol = sp.Symbol('y'),
-                xmin: int = -10,
-                xmax: int = 10,
-                ymin: int = -10,
-                ymax: int = 10) -> Plot:
+                  x: sp.Symbol = sp.Symbol('x'),
+                  y: sp.Symbol = sp.Symbol('y'),
+                  xmin: int = -10,
+                  xmax: int = 10,
+                  ymin: int = -10,
+                  ymax: int = 10) -> Plot:
     """Returns the contour plot of a function of two variables using SymPy.
     :param function: function of two variables
     :param x: variable x
@@ -127,6 +132,7 @@ def contourTangent(gradient: Tuple[sp.Function],
 
 
 class View:
+    """Represents a 3D view."""
     def __init__(self, elevation: float = 30, azimuth: float = 240) -> None:
         """Creates a 3D view.
         :param elevation: elevation of the view
@@ -134,27 +140,27 @@ class View:
         """
         self.elevation = elevation
         self.azimuth = azimuth
-    
+
     @staticmethod
     def top() -> 'View':
         """
         Returns the top view.
-        
+
         y-axis is pointing to the right,
         x-axis is pointing to the bottom
         """
         return View(90, 0)
-    
+
     @staticmethod
     def bottom() -> 'View':
         """
         Returns the bottom view.
-        
+
         y-axis is pointing to the right,
         x-axis is pointing to the top
         """
         return View(270, 0)
-    
+
     @staticmethod
     def front() -> 'View':
         """
@@ -200,7 +206,7 @@ class View:
         """Returns the isometric view."""
         return View(30, 240)
 
-def contourPlot3d(function: sp.Function,
+def contourPlot3d(function: sp.Function, # pylint: disable=too-many-locals
                   x: sp.Symbol = sp.Symbol('x'),
                   y: sp.Symbol = sp.Symbol('y'),
                   z: sp.Symbol = sp.Symbol('z'),
@@ -235,7 +241,7 @@ def contourPlot3d(function: sp.Function,
         raise ValueError('Count must be greater than 1.')
     if count < 10:
         print('Warning: count is less than 10 - the contour plot may not be smooth.')
-    
+
     xmin, xmax = xrange
     ymin, ymax = yrange
 
@@ -253,13 +259,13 @@ def contourPlot3d(function: sp.Function,
     zz = np.linspace(zmin, zmax, count)
 
     fig = plt.figure()
-    ax = fig.add_subplot(projection='3d')
-    ax.set_xlabel(x.name)
-    ax.set_ylabel(y.name)
-    ax.set_zlabel(z.name)
-    ax.set_xlim(xmin, xmax)
-    ax.set_ylim(ymin, ymax)
-    ax.set_zlim(zmin, zmax)
-    ax.view_init(elev = view.elevation, azim = view.azimuth)
-    
-    ax.contour(X, Y, Z, zz, colors = ["blue"], linewidths = [0.5])
+    plot = fig.add_subplot(projection='3d')
+    plot.set_xlabel(x.name)
+    plot.set_ylabel(y.name)
+    plot.set_zlabel(z.name)
+    plot.set_xlim(xmin, xmax)
+    plot.set_ylim(ymin, ymax)
+    plot.set_zlim(zmin, zmax)
+    plot.view_init(elev = view.elevation, azim = view.azimuth)
+
+    plot.contour(X, Y, Z, zz, colors = ["blue"], linewidths = [0.5])

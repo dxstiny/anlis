@@ -1,9 +1,15 @@
+# -*- coding: utf-8 -*-
+"""functions to determine critical points and extrema of multidimensional functions"""
+__copyright__ = ("Copyright (c) 2023 https://github.com/dxstiny")
+
+
 from typing import List, Dict
 import sympy as sp
 from anlis.multidimensional.derivative import gradient, determinant
 
 
-def criticalPoints(function: sp.Function, *variables: sp.Symbol) -> List[Dict[sp.Symbol, sp.Number]]:
+def criticalPoints(function: sp.Function,
+                   *variables: sp.Symbol) -> List[Dict[sp.Symbol, sp.Number]]:
     """Returns the critical points of a function of any number of variables.
     :param function: function of two or more variables
     :param variables: variables
@@ -18,7 +24,8 @@ def criticalPoints(function: sp.Function, *variables: sp.Symbol) -> List[Dict[sp
     """
     return sp.solve(gradient(function, *variables), *variables, dict=True)
 
-def minimas(function: sp.Function, *variables: sp.Symbol) -> List[Dict[sp.Symbol, sp.Number]]:
+def minimas(function: sp.Function,
+            *variables: sp.Symbol) -> List[Dict[sp.Symbol, sp.Number]]:
     """Returns the minimas of a function of any number of variables.
     :param function: function of two or more variables
     :param variables: variables
@@ -35,7 +42,8 @@ def minimas(function: sp.Function, *variables: sp.Symbol) -> List[Dict[sp.Symbol
              for point in criticalPoints(function, *variables)
              if determinant(function, list(variables)).subs(point) > 0 ]
 
-def maximas(function: sp.Function, *variables: sp.Symbol) -> List[Dict[sp.Symbol, sp.Number]]:
+def maximas(function: sp.Function,
+            *variables: sp.Symbol) -> List[Dict[sp.Symbol, sp.Number]]:
     """Returns the maximas of a function of any number of variables.
     :param function: function of two or more variables
     :param variables: variables
