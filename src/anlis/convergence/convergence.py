@@ -38,6 +38,9 @@ class Convergence:
             return f'converges to {self.to} (~{self.toFloat}))'
         return 'diverges'
 
+    def __repr__(self) -> str:
+        return self.__str__()
+
     @staticmethod
     def convergence(to: float) -> Convergence:
         return Convergence(True, to)
