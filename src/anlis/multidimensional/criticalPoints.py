@@ -24,36 +24,36 @@ def criticalPoints(function: sp.Function,
     """
     return sp.solve(gradient(function, *variables), *variables, dict=True)
 
-def minimas(function: sp.Function,
-            *variables: sp.Symbol) -> List[Dict[sp.Symbol, sp.Number]]:
-    """Returns the minimas of a function of any number of variables.
+def minima(function: sp.Function,
+           *variables: sp.Symbol) -> List[Dict[sp.Symbol, sp.Number]]:
+    """Returns the minima of a function of any number of variables.
     :param function: function of two or more variables
     :param variables: variables
-    :return: minimas of function
+    :return: minima of function
 
     Example:
     >>> from sympy import symbols
-    >>> from anlis.multidimensional.criticalPoints import minimas
+    >>> from anlis.multidimensional.criticalPoints import minima
     >>> x, y = symbols('x y')
-    >>> minimas(x**2 + y**2, x, y)
+    >>> minima(x**2 + y**2, x, y)
     [{x: 0, y: 0}]
     """
     return [ point
              for point in criticalPoints(function, *variables)
              if determinant(function, list(variables)).subs(point) > 0 ]
 
-def maximas(function: sp.Function,
-            *variables: sp.Symbol) -> List[Dict[sp.Symbol, sp.Number]]:
-    """Returns the maximas of a function of any number of variables.
+def maxima(function: sp.Function,
+           *variables: sp.Symbol) -> List[Dict[sp.Symbol, sp.Number]]:
+    """Returns the maxima of a function of any number of variables.
     :param function: function of two or more variables
     :param variables: variables
-    :return: maximas of function
+    :return: maxima of function
 
     Example:
     >>> from sympy import symbols
-    >>> from anlis.multidimensional.criticalPoints import maximas
+    >>> from anlis.multidimensional.criticalPoints import maxima
     >>> x, y = symbols('x y')
-    >>> maximas(x**2 + y**2, x, y)
+    >>> maxima(x**2 + y**2, x, y)
     []
     """
     return [ point

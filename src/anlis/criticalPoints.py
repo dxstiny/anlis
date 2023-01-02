@@ -3,7 +3,7 @@
 __copyright__ = ("Copyright (c) 2023 https://github.com/dxstiny")
 
 
-from typing import List
+from typing import List, Dict
 import sympy as sp
 
 
@@ -23,38 +23,76 @@ def criticalPoints(function: sp.Function,
     """
     return sp.solve(sp.diff(function, x), x, dict=True)
 
-def minimas(function: sp.Function,
+def minima(function: sp.Function,
             x: sp.Symbol = sp.Symbol("x")) -> List[sp.Number]:
-    """Returns the minimas of a function of one variable.
+    """Returns the minima of a function of one variable.
     :param function: function of one variable
     :param x: variable
-    :return: minimas of function
+    :return: minima of function
 
     Example:
     >>> from sympy import symbols
-    >>> from anlis.multidimensional.criticalPoints import minimas
+    >>> from anlis.multidimensional.criticalPoints import minima
     >>> x = symbols('x')
-    >>> minimas(x**2, x)
+    >>> minima(x**2, x)
     [0]
     """
     return [ point
              for point in criticalPoints(function, x)
              if sp.diff(function, x, 2).subs(point) > 0 ]
 
-def maximas(function: sp.Function,
+def maxima(function: sp.Function,
             x: sp.Symbol = sp.Symbol("x")) -> List[sp.Number]:
-    """Returns the maximas of a function of one variable.
+    """Returns the maxima of a function of one variable.
     :param function: function of one variable
     :param x: variable
-    :return: maximas of function
+    :return: maxima of function
 
     Example:
     >>> from sympy import symbols
-    >>> from anlis.multidimensional.criticalPoints import maximas
+    >>> from anlis.multidimensional.criticalPoints import maxima
     >>> x = symbols('x')
-    >>> maximas(-x**2, x)
+    >>> maxima(-x**2, x)
     [0]
     """
     return [ point
              for point in criticalPoints(function, x)
              if sp.diff(function, x, 2).subs(point) < 0]
+
+def turningPoints(function: sp.Function,
+                  x: sp.Symbol = sp.Symbol("x")) -> List[sp.Number]:
+    """Returns the turning points of a function of one variable.
+    :param function: function of one variable
+    :param x: variable
+    :return: turning points of function
+
+    Example:
+    >>> from sympy import symbols
+    >>> from anlis.multidimensional.criticalPoints import turningPoints
+    >>> x = symbols('x')
+    >>> turningPoints(x**2, x)
+    [0]
+    """
+    points: List[Dict[sp.Symbol, sp.Number]] = sp.solve(sp.diff(function, x, 2), x, dict=True)
+    return [ point[x]
+             for point in points
+             if sp.diff(function, x, 3).subs(point) != 0 ]
+
+def saddlePoints(function: sp.Function,
+                 x: sp.Symbol = sp.Symbol("x")) -> List[sp.Number]:
+    """Returns the saddle points of a function of one variable.
+    :param function: function of one variable
+    :param x: variable
+    :return: saddle points of function
+
+    Example:
+    >>> from sympy import symbols
+    >>> from anlis.multidimensional.criticalPoints import saddlePoints
+    >>> x = symbols('x')
+    >>> saddlePoints(x**2, x)
+    []
+    """
+    points = turningPoints(function, x)
+    return [ point
+             for point in points
+             if sp.diff(function, x).subs(x, point) == 0 ]
