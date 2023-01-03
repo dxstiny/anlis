@@ -3,8 +3,11 @@
 __copyright__ = ("Copyright (c) 2023 https://github.com/dxstiny")
 
 
+from typing import Union, Tuple
+
 import sympy as sp
 import numpy as np
+import matplotlib.pyplot as plt
 
 
 def TnValue(f: sp.Function, # pylint: disable=invalid-name
@@ -20,7 +23,7 @@ def TnValue(f: sp.Function, # pylint: disable=invalid-name
     :return: nth Taylor value of f(x) at x0
     """
     df = sp.diff(f, symbol, n).subs(symbol, x0)
-    return df / np.math.factorial(n) * (symbol - x0)**n
+    return df / sp.factorial(n) * (symbol - x0)**n
 
 def Tn(f: sp.Function, # pylint: disable=invalid-name
        x0: float,
@@ -102,7 +105,7 @@ def lagrangeRemainder(f: sp.Function,
     if dfn.is_negative:
         dfn = -dfn
 
-    g = dfn * M / np.math.factorial(n)
+    g = dfn * M / sp.factorial(n)
 
     T = sp.maximum(g, symbol, sp.Interval(x0, m))
 
@@ -135,3 +138,32 @@ def TnMin(f: sp.Function, # pylint: disable=invalid-name
     while TnError(f, x0, a, b, n, symbol) > eps:
         n += 1
     return n
+
+def taylorPlot(f: sp.Function,
+               x0: float,
+               n: int,
+               interval: Union[sp.Interval, Tuple[float, float]] = (-1, 1),
+               x: sp.Symbol = sp.Symbol("x")) -> None:
+    """
+    Plots the nth Taylor polynomial *and* the function f(x) on the same graph.
+    blue: f(x)
+    orange: T_n(x)
+    :param f: function f(x)
+    :param x0: point x0
+    :param n: nth Taylor polynomial
+    :param interval: interval to plot on
+    :param x: symbol of x
+    :return: None
+    """
+    tn = Tn(f, x0, n, x)
+
+    if isinstance(interval, sp.Interval):
+        a, b = interval.args
+    else:
+        a, b = interval
+
+    xx = np.linspace(x0 + a, x0 + b, 1000)
+    fnp = sp.lambdify(x, f, "numpy")
+    tnp = sp.lambdify(x, tn, "numpy")
+    plt.plot(xx, fnp(xx), label="f(x)")
+    plt.plot(xx, tnp(xx), label=f"T_{n}(x)")

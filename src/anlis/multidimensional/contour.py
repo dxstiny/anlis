@@ -227,6 +227,10 @@ def contourPlot3d(function: sp.Function, # pylint: disable=too-many-locals
     :param count: number of contour lines
     :return: None
 
+    This function is based on a python notebook by Joachim Wirth.
+    While the original implementation offered  more customisation, this function is easier to use.
+    It also uses SymPy in favour of NumPy, which makes it a bit more straightforward to use.
+
     Example:
     >>> import sympy as sp
     >>> from anlis.multidimensional.contour import contourPlot3d, View

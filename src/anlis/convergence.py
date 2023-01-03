@@ -52,6 +52,9 @@ class Convergence:
     def __repr__(self) -> str:
         return self.__str__()
 
+    def __bool__(self) -> bool:
+        return self.does
+
     @staticmethod
     def convergence(to: float) -> Convergence:
         """Returns a Convergence object representing convergence to a value."""
@@ -162,7 +165,9 @@ def ratioTest(ak: sp.Function, symbol: sp.Symbol = sp.Symbol("k")) -> Optional[C
     Converges to 1/5
     """
     ak1 = ak.subs(symbol, symbol + 1)
+    print(ak1)
     to = sp.limit(sp.Abs(ak1 / ak), symbol, sp.oo)
+    print(to)
 
     if to == 1:
         return None
@@ -193,3 +198,23 @@ def rootTest(ak: sp.Function, symbol: sp.Symbol = sp.Symbol("k")) -> Optional[Co
     if to > 1:
         return Convergence.divergence()
     return Convergence.convergence(to)
+
+def radiusOfConvergence(ak: sp.Function, symbol: sp.Symbol = sp.Symbol("k")) -> Optional[float]:
+    """
+    Radius of convergence test for a series.
+    :param ak: a_k
+    :param symbol: symbol of the series
+    :return: convergence
+
+    Examples
+    ========
+    >>> import sympy as sp
+    >>> from anlis.convergence import radiusOfConvergence
+    >>> k = sp.Symbol("k")
+    >>> radiusOfConvergence(k / 5 ** k, k)
+    Converges to 1/5
+    """
+    ak1 = ak.subs(symbol, symbol + 1)
+    to = sp.limit(sp.Abs(ak1 / ak), symbol, sp.oo)
+    R = 1 / to
+    return R

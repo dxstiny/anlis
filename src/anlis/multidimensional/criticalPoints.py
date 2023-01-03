@@ -22,7 +22,27 @@ def criticalPoints(function: sp.Function,
     >>> criticalPoints(x**2 + y**2, x, y)
     [{x: 0, y: 0}]
     """
-    return sp.solve(gradient(function, *variables), *variables, dict=True)
+    points = [ ]
+    g = gradient(function, *variables)
+    points.extend(sp.solve(g, *variables, dict=True))
+
+    if "sqrt" in str(g):
+        print("Warning: sqrt in gradient. There may be more critical points.")
+        print("Critical points are where the gradient is zero or undefined.")
+        print("Gradient: ", g)
+
+    denoms = sp.solvers.solvers.denoms(g, *variables)
+    for denom in denoms:
+        for sol in sp.solve(denom, *variables, dict=True):
+            for var in variables:
+                if var not in sol:
+                    continue
+                if not sol[var].is_real:
+                    break
+            else:
+                points.append(sol)
+
+    return points
 
 def minima(function: sp.Function,
            *variables: sp.Symbol) -> List[Dict[sp.Symbol, sp.Number]]:
