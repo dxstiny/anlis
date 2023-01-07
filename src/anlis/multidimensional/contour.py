@@ -115,6 +115,21 @@ def contourPlot(function: sp.Function,
     Z = sp.lambdify((x, y), function, 'numpy')(X, Y)
     return X, Y, Z
 
+def levelSurface(function: sp.Function,
+                 x0: Tuple[float],
+                 variables: Tuple[sp.Symbol]) -> sp.Function:
+    """
+    Returns the level surface of a function: F(x, y, z, ...)
+    :param function: function of two or more variables
+    :param x0: point on the function
+    :param variables: variables of the level surface
+    :return: level surface of function
+    """
+    assert len(x0) == len(variables)
+
+    c = function.subs({variables[i]: x0[i] for i in range(len(variables))})
+    return function - c
+
 def contourTangent(gradient: Tuple[sp.Function],
                    x0: Tuple[float],
                    variables: Tuple[sp.Symbol]) -> sp.Function:
