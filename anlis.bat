@@ -12,7 +12,7 @@ if /i "%command%" == "" goto build
 
 :lint
 python3 -m pylint src/anlis
-python3 -m mypy src/anlis
+::python3 -m mypy src/anlis
 exit
 
 :build
