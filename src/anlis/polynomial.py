@@ -62,6 +62,14 @@ def isContinuous(function: sp.Function,
 
     return True
 
+def isEven(function: sp.Function, x: sp.Symbol = sp.Symbol("x")) -> bool:
+    """
+    Checks if a function is even.
+    :param function: the function
+    :return: whether the function is even
+    """
+    return function.subs(x, -x) == function
+
 
 class ParabolaBuilder:
     """A builder for parabolas."""
