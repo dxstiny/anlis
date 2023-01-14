@@ -79,6 +79,38 @@ def linearise(function: sp.Function,
         total += partialDerivative(function, v).subs({ v: x }) * (v - x)
     return total
 
+def tangentialPlane(function: sp.Function,
+                    x0: Tuple[float, ...],
+                    *variables: sp.Symbol) -> sp.Function:
+    """Returns the tangent plane of a function of any number of variables through x0.
+    :param function: function of two or more variables (f(x) = 0)
+    :param variables: variables
+    :return: linearisation of function
+
+    Example:
+    >>> from sympy import symbols
+    >>> from anlis.multidimensional.derivative import tangentialPlane
+    >>> x, y = symbols('x y')
+    >>> tangentialPlane(x**2 + y**2, x, y)
+    """
+    return linearise(function, x0, *variables)
+
+def levelPlane(function: sp.Function,
+               x0: Tuple[float, ...],
+               *variables: sp.Symbol) -> sp.Function:
+    """Returns the level plane of a function of any number of variables through x0.
+    :param function: function of two or more variables
+    :param variables: variables
+    :return: linearisation of function
+
+    Example:
+    >>> from sympy import symbols
+    >>> from anlis.multidimensional.derivative import levelPlane
+    >>> x, y = symbols('x y')
+    >>> levelPlane(x**2 + y**2, x, y)
+    """
+    return function - function.subs(dict( zip(variables, x0) ))
+
 def jacobiMatrix(functions: List[sp.Function],
                  variables: List[sp.Symbol]) -> sp.Matrix:
     """Returns the Jacobi matrix of a function of any number of variables.

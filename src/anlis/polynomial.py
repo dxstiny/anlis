@@ -170,7 +170,7 @@ class ParabolaBuilder:
         rZeros = self.realZeros
         assert len(rZeros) in (1, 2), "cannot factor, not enough zeros"
 
-        if len(zeros) == 1:
+        if len(rZeros) == 1:
             x1 = rZeros.pop()
             return self._a * (x - x1)**2
         x1, x2 = rZeros
