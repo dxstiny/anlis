@@ -1,6 +1,6 @@
 # ANLIS - Analysis for Python
 
-ANLIS is a Python package for [analysis](https://en.wikipedia.org/wiki/Mathematical_analysis) built on top of [numpy]( https://www.numpy.org/ ) and [sympy]( https://www.sympy.org/en/index.html ). ANLIS provides a set of functions to perform analysis tasks. ANLIS is a work in progress and currently supports the following tasks:
+ANLIS is a Python package for [analysis](https://en.wikipedia.org/wiki/Mathematical_analysis) built on top of [numpy]( https://www.numpy.org/ ) and [sympy]( https://www.sympy.org/en/index.html ). ANLIS provides a set of functions to perform analysis tasks. ANLIS is a work in progress and currently supports the following tasks (and some more):
 
 - Series
     - Plotting any series
